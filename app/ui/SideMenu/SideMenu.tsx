@@ -25,7 +25,8 @@ export function SideMenu(): ReactNode {
   return (
     <div
       className={`
-    bg-[#13293d] 
+        bg-white
+    dark:bg-[#13293d] 
     flex flex-col 
     items-center 
     justify-start 

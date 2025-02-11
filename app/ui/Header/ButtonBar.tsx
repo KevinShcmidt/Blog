@@ -7,7 +7,7 @@ import { ProfilButton } from './ProfilButton';
 export function ButtonBar(): ReactNode {
   return (
     <div className="p-2 flex items-center justify-center gap-6">
-      <ChangeLangue pathname="/images/flag/frs.webp" />
+      <ChangeLangue />
       <ChangeMode />
       <Notification />
       <ProfilButton pathname="/images/avatar.webp" />

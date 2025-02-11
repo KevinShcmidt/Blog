@@ -7,7 +7,7 @@ export function Close({
   onClose: (value: boolean) => void;
 }): ReactNode {
   return (
-    <div className="py-2" onClick={() => onClose(false)}>
+    <div className="py-2 text-gridBg dark:text-white" onClick={() => onClose(false)}>
       <X size={32} />
     </div>
   );
