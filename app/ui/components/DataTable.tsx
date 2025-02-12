@@ -9,7 +9,16 @@ import {
   ColumnDef,
   flexRender,
 } from "@tanstack/react-table";
-import { Ellipsis, Eye, MoveLeft, MoveRight, Pencil, Trash } from "lucide-react";
+import {
+  ChevronDown,
+  ChevronUp,
+  Ellipsis,
+  Eye,
+  MoveLeft,
+  MoveRight,
+  Pencil,
+  Trash,
+} from "lucide-react";
 
 type DataTableProps<T> = {
   columns: ColumnDef<T>[];
@@ -26,16 +35,15 @@ export default function DataTable<T>({
   const [pageIndex, setPageIndex] = useState(0);
   const [pageSize, setPageSize] = useState(pageSizeOptions[0]);
 
-
   type isClicked = {
-    isActivated : boolean,
-    isExact : number
-  }
+    isActivated: boolean;
+    isExact: number;
+  };
 
   const [isClicked, setIsClicked] = useState<isClicked>({
-    isActivated : false,
-    isExact : -1
-  })
+    isActivated: false,
+    isExact: -1,
+  });
 
   const table = useReactTable({
     data,
@@ -84,33 +92,45 @@ export default function DataTable<T>({
         />
       </div>
 
-      <table className="min-w-full text-center">
-        <thead>
+      <table className="min-w-full text-start">
+        <thead className="text-start mb-8">
           {table.getHeaderGroups().map((headerGroup) => (
-            <tr key={headerGroup.id} className="bg-transparent">
+            <tr key={headerGroup.id} className="bg-secondary mb-6">
               {headerGroup.headers.map((header) => (
                 <th
                   key={header.id}
-                  className=" p-2 cursor-pointer"
+                  className="text-start p-2 cursor-pointer mb-6"
                   onClick={header.column.getToggleSortingHandler()}
                 >
-                  {flexRender(
-                    header.column.columnDef.header,
-                    header.getContext()
-                  )}
-                  {header.column.getIsSorted() === "asc"
-                    ? " 🔼"
-                    : header.column.getIsSorted() === "desc"
-                    ? " 🔽"
-                    : ""}
+                  <div className="flex items-center gap-2">
+                    {flexRender(
+                      header.column.columnDef.header,
+                      header.getContext()
+                    )}
+                    <div className="flex flex-col -space-y-1">
+                      <ChevronUp
+                        className={`w-3 h-3 ${
+                          header.column.getIsSorted() === "asc"
+                            ? "text-blue-600"
+                            : "text-gray-300"
+                        }`}
+                      />
+                      <ChevronDown
+                        className={`w-3 h-3 ${
+                          header.column.getIsSorted() === "desc"
+                            ? "text-blue-600"
+                            : "text-gray-300"
+                        }`}
+                      />
+                    </div>
+                  </div>
                 </th>
               ))}
-              <th className="p-2">Actions</th>{" "}
-              {/* 📌 Colonne des boutons */}
+              <th className="p-2 mb-6">Actions</th>
             </tr>
           ))}
         </thead>
-        <tbody>
+        <tbody className="font-normal">
           {table.getRowModel().rows.map((row) => (
             <tr key={row.id} className="hover:bg-secondary">
               {row.getVisibleCells().map((cell) => (
@@ -120,25 +140,32 @@ export default function DataTable<T>({
               ))}
               {/* 📌 Boutons View / Edit / Delete */}
               <td className="p-2 flex gap-2 items-center justify-center relative">
-                 <Ellipsis onClick={() => setIsClicked({isActivated : !isClicked.isActivated, isExact : parseInt(row.id)})} size={16} />
-                 {
-                  isClicked.isActivated && isClicked.isExact === parseInt(row.id) && (
+                <Ellipsis
+                  onClick={() =>
+                    setIsClicked({
+                      isActivated: !isClicked.isActivated,
+                      isExact: parseInt(row.id),
+                    })
+                  }
+                  size={16}
+                />
+                {isClicked.isActivated &&
+                  isClicked.isExact === parseInt(row.id) && (
                     <div className="absolute top-7 z-10 bg-secondary rounded-md flex flex-col gap-2 items-center justify-center">
-                    <div className="w-[120px]  px-2 hover:bg-blue-800 flex items-center justify-between">
-                       <p>Voir</p>
-                      <Eye size={16} />
+                      <div className="w-[120px]  px-2 hover:bg-blue-800 flex items-center justify-between">
+                        <p>Voir</p>
+                        <Eye size={16} />
+                      </div>
+                      <div className="w-[120px]  px-2 hover:bg-blue-800 flex items-center justify-between">
+                        <p>Modifier</p>
+                        <Pencil size={16} />
+                      </div>
+                      <div className="w-[120px]  px-2 hover:bg-blue-800 flex items-center justify-between">
+                        <p>Supprimer</p>
+                        <Trash size={16} />
+                      </div>
                     </div>
-                    <div className="w-[120px]  px-2 hover:bg-blue-800 flex items-center justify-between">
-                       <p>Modifier</p>
-                       <Pencil size={16} />
-                    </div>
-                    <div className="w-[120px]  px-2 hover:bg-blue-800 flex items-center justify-between">
-                       <p>Supprimer</p>
-                       <Trash size={16} />
-                    </div>
-                 </div>
-                  )
-                 }
+                  )}
               </td>
             </tr>
           ))}
@@ -158,21 +185,19 @@ export default function DataTable<T>({
             onClick={() => table.previousPage()}
             disabled={!table.getCanPreviousPage()}
           >
-           <MoveLeft size={16} />
+            <MoveLeft size={16} />
           </button>
 
-         <div className="bg-secondary text-gray-200 rounded-md w-8 h-8 flex items-center justify-center">
-         <span>
-           {pageIndex + 1}
-          </span>
-         </div>
+          <div className="bg-secondary text-gray-200 rounded-md w-8 h-8 flex items-center justify-center">
+            <span>{pageIndex + 1}</span>
+          </div>
 
           <button
             className="px-4 py-2 text-gray-200 disabled:opacity-50"
             onClick={() => table.nextPage()}
             disabled={!table.getCanNextPage()}
           >
-             <MoveRight size={16} />
+            <MoveRight size={16} />
           </button>
         </div>
       </div>
