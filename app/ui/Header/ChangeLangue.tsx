@@ -1,30 +1,38 @@
-import { ReactNode } from 'react';
+"use client";
+import { ReactNode, useState } from 'react';
 import Image from 'next/image';
 
 export function ChangeLangue(): ReactNode {
   const languageData = [{
     language : "French",
-    flag : "/images/flag/frs.webp"
+    flag : "/images/flag/frs.jpg"
   }, {
      language : "English",
-    flag : "/images/flag/usa.webp"
+    flag : "/images/flag/usa.jpg"
   }]
+  const [isChange, setIsChange]=useState<boolean>(false)
   return (
-    <div className="rounded-sm p-1 relative">
+    <div className="relative rounded-sm p-1 relative w-6 h-6" onClick={() => setIsChange(!isChange)} >
       <Image
         className="rounded-md"
-        src="/images/flag/frs.webp"
-        width={32}
-        height={32}
+        src="/images/flag/frs.jpg"
+        fill={true}
+        objectFit='cover'
         alt=""
       />
-      <ul className="min-w-32 absolute top-10 right-0 p-2 bg-gray-50 dark:bg-secondary rounded-md">
+      { isChange && (<ul className="min-w-32 absolute flex flex-col gap-2 top-10 right-0 p-2 bg-gray-50 dark:bg-secondary rounded-md">
         {
           languageData.map((item, index) => ( 
-            <li key={index} className='list-none text-secondary dark:text-white space-y-2 flex items-center justify-between'><Image src={item.flag} className='rounded-sm' width={30} height={30} alt='flag' /><p>{item.language}</p></li>
+            <div key={index} className='list-none text-secondary text-sm dark:text-white flex items-center justify-between'>
+              <div className="relative w-6 h-6">
+                <Image src={item.flag} className='rounded-sm' fill={true} objectFit='cover' alt='flag' />
+              </div>
+              <p>{item.language}</p>
+            </div>
           ))
         }
-      </ul>
+      </ul>)}
     </div>
   );
+
 }

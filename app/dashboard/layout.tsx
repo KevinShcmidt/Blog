@@ -1,3 +1,4 @@
+"use client";
 import { ReactNode } from 'react';
 import { SideMenu } from '../ui/SideMenu/SideMenu';
 import { SearchBar } from '../ui/Header/SearchBar';

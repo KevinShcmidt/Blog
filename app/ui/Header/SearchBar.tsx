@@ -9,7 +9,7 @@ export function SearchBar(): ReactNode {
   return (
     <div
     className={clsx(
-      'w-full bg-transparent border-blue-300 border-[0.1px] dark:bg-gridBg dark:border-none px-4 py-1 rounded-md items-center flex justify-between',
+      'w-full bg-transparent border-blue-300 border-[0.1px] shadow-sm dark:bg-gridBg dark:border-none px-4 py-1 rounded-md items-center flex justify-between',
       isFocus ? 'dark:bg-blue-900' : ''
     )}
     >
