@@ -9,6 +9,7 @@ import {
   ColumnDef,
   flexRender,
 } from "@tanstack/react-table";
+import { MoveLeft, MoveRight } from "lucide-react";
 
 type DataTableProps<T> = {
   columns: ColumnDef<T>[];
@@ -30,7 +31,10 @@ export default function DataTable<T>({
     columns,
     state: { pagination: { pageIndex, pageSize }, globalFilter },
     onPaginationChange: (updater) => {
-      const newState = typeof updater === "function" ? updater({ pageIndex, pageSize }) : updater;
+      const newState =
+        typeof updater === "function"
+          ? updater({ pageIndex, pageSize })
+          : updater;
       setPageIndex(newState.pageIndex);
       setPageSize(newState.pageSize);
     },
@@ -42,61 +46,78 @@ export default function DataTable<T>({
   });
 
   return (
-    <div className="">
-      {/* 🔍 Barre de recherche */}
+    <div className="w-full bg-primary p-4 rounded-xl flex flex-col items-center gap-4">
+      {/* 🔍 Barre de recherche Ligne */}
       <div className="w-full flex flex-col sm:flex-row gap-4 items-center justify-between">
-  <select
-    value={pageSize}
-    onChange={(e) => setPageSize(Number(e.target.value))}
-    className="px-4 py-2 bg-white border border-gray-300 rounded-lg shadow-sm text-gray-700 focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200"
-  >
-    {pageSizeOptions.map(size => (
-      <option key={size} value={size}>
-        {size} lignes
-      </option>
-    ))}
-  </select>
-  
-  <input
-    type="text"
-    placeholder="Rechercher..."
-    value={globalFilter}
-    onChange={(e) => setGlobalFilter(e.target.value)}
-    className="w-full sm:w-[250px] px-4 py-2 bg-white border border-gray-300 rounded-lg shadow-sm text-gray-700 placeholder-gray-400 focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200"
-  />
-</div>
-      
-      <table className="min-w-full border border-gray-300">
+        <div className="flex items-center justify-center mb-6 gap-2">
+          <p>Resultat :</p>
+          <select
+            value={pageSize}
+            onChange={(e) => setPageSize(Number(e.target.value))}
+            className="px-4 py-2 border-[.5px] bg-transparent border-secondary rounded-lg shadow-sm text-gray-400 focus:outline-none focus:ring-1 focus:ring-blue-500 focus:-blue-500 transition-all duration-200"
+          >
+            {pageSizeOptions.map((size) => (
+              <option key={size} value={size}>
+                {size} lignes
+              </option>
+            ))}
+          </select>
+        </div>
+
+        <input
+          type="text"
+          placeholder="Rechercher..."
+          value={globalFilter}
+          onChange={(e) => setGlobalFilter(e.target.value)}
+          className="w-full sm:w-[250px] px-4 py-2 border-[.5px] bg-transparent border-secondary rounded-lg shadow-sm text-gray-700 placeholder-gray-400 focus:outline-none focus:ring-1 focus:ring-blue-500 focus:-blue-500 transition-all duration-200"
+        />
+      </div>
+
+      <table className="min-w-full text-center">
         <thead>
-          {table.getHeaderGroups().map(headerGroup => (
+          {table.getHeaderGroups().map((headerGroup) => (
             <tr key={headerGroup.id} className="bg-transparent">
-              {headerGroup.headers.map(header => (
+              {headerGroup.headers.map((header) => (
                 <th
                   key={header.id}
-                  className="border p-2 cursor-pointer"
+                  className=" p-2 cursor-pointer"
                   onClick={header.column.getToggleSortingHandler()}
                 >
-                  {flexRender(header.column.columnDef.header, header.getContext())}
-                  {header.column.getIsSorted() === "asc" ? " 🔼" : header.column.getIsSorted() === "desc" ? " 🔽" : ""}
+                  {flexRender(
+                    header.column.columnDef.header,
+                    header.getContext()
+                  )}
+                  {header.column.getIsSorted() === "asc"
+                    ? " 🔼"
+                    : header.column.getIsSorted() === "desc"
+                    ? " 🔽"
+                    : ""}
                 </th>
               ))}
-              <th className="border p-2">Actions</th> {/* 📌 Colonne des boutons */}
+              <th className="p-2">Actions</th>{" "}
+              {/* 📌 Colonne des boutons */}
             </tr>
           ))}
         </thead>
         <tbody>
-          {table.getRowModel().rows.map(row => (
-            <tr key={row.id} className="hover:bg-gray-100">
-              {row.getVisibleCells().map(cell => (
-                <td key={cell.id} className="border p-2">
+          {table.getRowModel().rows.map((row) => (
+            <tr key={row.id} className="hover:bg-secondary">
+              {row.getVisibleCells().map((cell) => (
+                <td key={cell.id} className=" p-2">
                   {flexRender(cell.column.columnDef.cell, cell.getContext())}
                 </td>
               ))}
               {/* 📌 Boutons View / Edit / Delete */}
-              <td className="border p-2 flex gap-2">
-                <button className="px-2 py-1 bg-blue-500 text-white rounded">👁️ Voir</button>
-                <button className="px-2 py-1 bg-yellow-500 text-white rounded">✏️ Éditer</button>
-                <button className="px-2 py-1 bg-red-500 text-white rounded">🗑️ Supprimer</button>
+              <td className="p-2 flex gap-2 items-center justify-center">
+                <button className="px-2 py-1 bg-blue-500 text-white rounded">
+                  👁️ Voir
+                </button>
+                <button className="px-2 py-1 bg-yellow-500 text-white rounded">
+                  ✏️ Éditer
+                </button>
+                <button className="px-2 py-1 bg-red-500 text-white rounded">
+                  🗑️ Supprimer
+                </button>
               </td>
             </tr>
           ))}
@@ -104,26 +125,35 @@ export default function DataTable<T>({
       </table>
 
       {/* 📌 Pagination */}
-      <div className="flex justify-between items-center mt-4">
-        <button
-          className="px-4 py-2 bg-gray-300 rounded disabled:opacity-50"
-          onClick={() => table.previousPage()}
-          disabled={!table.getCanPreviousPage()}
-        >
-          Précédent
-        </button>
+      <div className="w-full text-gray-200 flex items-center mt-4 justify-between">
+        <div className="text-gray-200 px-4 py-2 border-[0.5px] border-secondary rounded-lg">
+          <span>
+            Page {pageIndex + 1} sur {table.getPageCount()}
+          </span>
+        </div>
+        <div className="flex items-center justify-center gap-2">
+          <button
+            className="px-4 py-2 text-gray-200 disabled:opacity-50"
+            onClick={() => table.previousPage()}
+            disabled={!table.getCanPreviousPage()}
+          >
+           <MoveLeft size={16} />
+          </button>
 
-        <span>
-          Page {pageIndex + 1} sur {table.getPageCount()}
-        </span>
+         <div className="bg-secondary text-gray-200 rounded-md w-8 h-8 flex items-center justify-center">
+         <span>
+           {pageIndex + 1}
+          </span>
+         </div>
 
-        <button
-          className="px-4 py-2 bg-gray-300 rounded disabled:opacity-50"
-          onClick={() => table.nextPage()}
-          disabled={!table.getCanNextPage()}
-        >
-          Suivant
-        </button>
+          <button
+            className="px-4 py-2 text-gray-200 disabled:opacity-50"
+            onClick={() => table.nextPage()}
+            disabled={!table.getCanNextPage()}
+          >
+             <MoveRight size={16} />
+          </button>
+        </div>
       </div>
     </div>
   );
