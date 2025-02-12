@@ -9,7 +9,7 @@ import {
   ColumnDef,
   flexRender,
 } from "@tanstack/react-table";
-import { MoveLeft, MoveRight } from "lucide-react";
+import { Ellipsis, Eye, MoveLeft, MoveRight, Pencil, Trash } from "lucide-react";
 
 type DataTableProps<T> = {
   columns: ColumnDef<T>[];
@@ -25,6 +25,17 @@ export default function DataTable<T>({
   const [globalFilter, setGlobalFilter] = useState(""); // 🔍 Recherche globale
   const [pageIndex, setPageIndex] = useState(0);
   const [pageSize, setPageSize] = useState(pageSizeOptions[0]);
+
+
+  type isClicked = {
+    isActivated : boolean,
+    isExact : number
+  }
+
+  const [isClicked, setIsClicked] = useState<isClicked>({
+    isActivated : false,
+    isExact : -1
+  })
 
   const table = useReactTable({
     data,
@@ -108,16 +119,26 @@ export default function DataTable<T>({
                 </td>
               ))}
               {/* 📌 Boutons View / Edit / Delete */}
-              <td className="p-2 flex gap-2 items-center justify-center">
-                <button className="px-2 py-1 bg-blue-500 text-white rounded">
-                  👁️ Voir
-                </button>
-                <button className="px-2 py-1 bg-yellow-500 text-white rounded">
-                  ✏️ Éditer
-                </button>
-                <button className="px-2 py-1 bg-red-500 text-white rounded">
-                  🗑️ Supprimer
-                </button>
+              <td className="p-2 flex gap-2 items-center justify-center relative">
+                 <Ellipsis onClick={() => setIsClicked({isActivated : !isClicked.isActivated, isExact : parseInt(row.id)})} size={16} />
+                 {
+                  isClicked.isActivated && isClicked.isExact === parseInt(row.id) && (
+                    <div className="absolute top-7 z-10 bg-secondary rounded-md flex flex-col gap-2 items-center justify-center">
+                    <div className="w-[120px]  px-2 hover:bg-blue-800 flex items-center justify-between">
+                       <p>Voir</p>
+                      <Eye size={16} />
+                    </div>
+                    <div className="w-[120px]  px-2 hover:bg-blue-800 flex items-center justify-between">
+                       <p>Modifier</p>
+                       <Pencil size={16} />
+                    </div>
+                    <div className="w-[120px]  px-2 hover:bg-blue-800 flex items-center justify-between">
+                       <p>Supprimer</p>
+                       <Trash size={16} />
+                    </div>
+                 </div>
+                  )
+                 }
               </td>
             </tr>
           ))}
