@@ -1,6 +1,7 @@
 "use client";
 import { ReactNode, useState } from 'react';
 import Image from 'next/image';
+import { useClickOutside } from '@/app/lib/utils';
 
 export function ChangeLangue(): ReactNode {
   const languageData = [{
@@ -11,8 +12,9 @@ export function ChangeLangue(): ReactNode {
     flag : "/images/flag/usa.jpg"
   }]
   const [isChange, setIsChange]=useState<boolean>(false)
+  const ref = useClickOutside<HTMLDivElement>(() => setIsChange(false));
   return (
-    <div className="relative rounded-sm p-1 relative w-6 h-6" onClick={() => setIsChange(!isChange)} >
+    <div ref={ref} className="relative rounded-sm p-1 w-6 h-6" onClick={() => setIsChange(!isChange)} >
       <Image
         className="rounded-md"
         src="/images/flag/frs.jpg"

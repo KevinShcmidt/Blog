@@ -23,7 +23,7 @@ const columns: ColumnDef<typeof data[0]>[] = [
 export default function Page() {
   return (
     <div className="">
-      <h1 className="text-2xl font-bold mb-4">Liste des Utilisateurs</h1>
+      <h1 className='mb-8 text-secondary dark:text-gray-400'>App  /  Blog  /  <span className='font-bold'>Liste</span></h1>
       <DataTable data={data} columns={columns} />
     </div>
   );

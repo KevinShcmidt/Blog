@@ -34,6 +34,8 @@ export function SideMenu(): ReactNode {
     px-4 
     h-screen 
     transition-all 
+    fixed
+    z-20
     duration-300 
     ease-in-out
     ${isHover ? 'w-64' : 'w-24'}

@@ -11,6 +11,7 @@ export default function Page(): ReactNode {
             <Card />
             <Card />
             <Card />
+            
     </div>
   </div>);
 }

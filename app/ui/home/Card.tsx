@@ -3,7 +3,7 @@ import Image from 'next/image'
 
 export default function Card() {
   return (
-    <div className='w-full p-4 bg-gray-50 flex flex-col items-start shadow-lg border-[.5px] border-gray-500 dark:bg-gridBg dark:border-none rounded-xl'>
+    <div className='w-full transition-transform duration-300 hover:scale-105 p-4 bg-gray-50 flex flex-col items-start shadow-lg border-[.5px] border-gray-500 dark:bg-gridBg dark:border-none rounded-xl'>
         <div className="w-full max-h-52 relative">
           <Image src="/images/setup.jpg" className='shadow-md' style={{borderRadius : "14px"}} width={500} height={500} objectFit='contain' alt="Blog image" sizes='(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw' />
         </div>

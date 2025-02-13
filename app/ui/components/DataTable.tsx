@@ -19,6 +19,7 @@ import {
   Pencil,
   Trash,
 } from "lucide-react";
+import { useClickOutside } from "@/app/lib/utils";
 
 type DataTableProps<T> = {
   columns: ColumnDef<T>[];
@@ -44,6 +45,11 @@ export default function DataTable<T>({
     isActivated: false,
     isExact: -1,
   });
+
+  const ref = useClickOutside<HTMLTableDataCellElement>(() => setIsClicked({
+    isActivated: false,
+    isExact: -1,
+  }));
 
   const table = useReactTable({
     data,
@@ -99,7 +105,7 @@ export default function DataTable<T>({
               {headerGroup.headers.map((header) => (
                 <th
                   key={header.id}
-                  className="text-start p-2 cursor-pointer mb-6"
+                  className="text-start p-2 py-4 cursor-pointer mb-6"
                   onClick={header.column.getToggleSortingHandler()}
                 >
                   <div className="flex items-center gap-2">
@@ -126,7 +132,7 @@ export default function DataTable<T>({
                   </div>
                 </th>
               ))}
-              <th className="p-2 mb-6">Actions</th>
+              <th className="text-center p-2 mb-6">Actions</th>
             </tr>
           ))}
         </thead>
@@ -139,7 +145,7 @@ export default function DataTable<T>({
                 </td>
               ))}
               {/* 📌 Boutons View / Edit / Delete */}
-              <td className="p-2 flex gap-2 items-center justify-center relative">
+              <td ref={ref} className="p-2 text-center flex justify-center items-center relative">
                 <Ellipsis
                   onClick={() =>
                     setIsClicked({
@@ -151,7 +157,7 @@ export default function DataTable<T>({
                 />
                 {isClicked.isActivated &&
                   isClicked.isExact === parseInt(row.id) && (
-                    <div className="absolute top-7 z-10 bg-secondary rounded-md flex flex-col gap-2 items-center justify-center">
+                    <div className="absolute top-7 z-10 bg-secondary shadow-xl rounded-md flex flex-col gap-2 items-center justify-center">
                       <div className="w-[120px]  px-2 hover:bg-blue-800 flex items-center justify-between">
                         <p>Voir</p>
                         <Eye size={16} />

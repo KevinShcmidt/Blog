@@ -19,3 +19,19 @@ body {
   background: var(--background);
   font-family: Arial, Helvetica, sans-serif;
 }
+
+.ProseMirror h1 {
+  @apply text-3xl font-bold;
+}
+
+.ProseMirror h2 {
+  @apply text-2xl font-semibold;
+}
+
+.ProseMirror h3 {
+  @apply text-xl font-medium;
+}
+
+.tiptap {
+  @apply focus:outline-none ring-0 h-[50vh]
+}
