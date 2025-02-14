@@ -1,3 +1,4 @@
+import Config from '@/app/ui/Create/Config'
 import Content from '@/app/ui/Create/Content'
 import SeoParametre from '@/app/ui/Create/SeoParametre'
 import Input from '@/app/ui/Form/Input'
@@ -11,6 +12,7 @@ export default function Page() : ReactNode {
           <Input placeholder='Titre du post' />
           <Content />
           <SeoParametre />
+          <Config />
         </div>
     </div>
   )
