@@ -1,7 +1,19 @@
+import Config from '@/app/ui/Create/Config'
+import Content from '@/app/ui/Create/Content'
+import SeoParametre from '@/app/ui/Create/SeoParametre'
+import Input from '@/app/ui/Form/Input'
 import React from 'react'
 
 export default function Page() {
   return (
-    <div>Edit Page</div>
+    <div className='w-full text-secondary dark:text-gray-400 flex flex-col'>
+            <h1 className='mb-8'>Modifier  /  <span className='font-bold'>Blog</span></h1>
+            <div className="w-full p-4 bg-primary rounded-md">
+              <Input placeholder='Titre du post' />
+              <Content />
+              <SeoParametre />
+              <Config />
+            </div>
+        </div>
   )
 }
