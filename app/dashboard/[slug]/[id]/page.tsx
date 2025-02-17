@@ -152,8 +152,8 @@ const BlogArticle: React.FC = () => {
                     <Trash2 size={16} />
                   </Button>
                 </div>
-              {/* </div>
-            </CardContent> */}
+              </div>
+            </CardContent>
           </Card>
         ))}
       </div>
